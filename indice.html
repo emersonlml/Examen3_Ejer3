@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <title>Obteniendo Json</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        #elemento {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alumnos</h1>
+    <table border="1" id="alumnos">
+        <tr>
+            <th>CI</th>
+            <th>NOMBRE</th>
+            <th>PATERNO</th>
+            <th>MATERNO</th>
+            <th>PROMEDIO</th>
+        </tr>
+    </table>
+    <div id="elemento"></div>
+
+    <script>
+        //var url = 'http://localhost:8080/examenmicroservicio/principal.php';
+        var url = 'http://localhost/ejer2/principal.php';
+
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            let table = document.getElementById("alumnos");
+            let elemento = document.getElementById('elemento');
+
+            data.forEach((e, i) => {
+                let tr = document.createElement("tr");
+                for (p in e) {
+                    let td = document.createElement("td");
+                    td.classList.add(p);
+                    td.innerHTML = e[p];
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            });
+
+            elemento.innerHTML = `Se cargaron ${data.length} alumnos.`;
+        })
+        .catch(err => console.log(err));
+    </script>
+</body>
+</html>
